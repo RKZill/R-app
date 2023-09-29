@@ -25,7 +25,7 @@ ui <- fluidPage(
       checkboxInput("by_shp", "Show shapes", FALSE),
       varSelectInput("col", "Colour by:", dat[,2:9], selected = "soil_texture_group"),
       varSelectInput("shp", "Shapes by:", dat[,2:9], selected = "bmp_type")),
-    column(4,  
+    column(2,  
         checkboxGroupInput(
             "calendar_year", "Filter by Sampling Year",
              choices = unique(dat$calendar_year), 
@@ -38,15 +38,17 @@ ui <- fluidPage(
           "landscape_position", "Filter by Landscape Position",
           choices = unique(dat$landscape_position), 
           selected = unique(dat$landscape_position)),
-        checkboxGroupInput(
-          "region", "Filter by ONFARM Region",
-          choices = unique(dat$region), 
-          selected = unique(dat$region)),
-        checkboxGroupInput(
-          "texture", "Filter by Soil Texture Group",
-          choices = unique(dat$soil_texture_group),
-          selected = unique(dat$soil_texture_group)
-        )),
+    ),
+    column(2,
+           checkboxGroupInput(
+             "region", "Filter by ONFARM Region",
+             choices = unique(dat$region), 
+             selected = unique(dat$region)),
+           checkboxGroupInput(
+             "texture", "Filter by Soil Texture Group",
+             choices = unique(dat$soil_texture_group),
+             selected = unique(dat$soil_texture_group))
+    ),
     column(4,
       checkboxGroupInput(
         "site_num", "Filter by Site Number",
