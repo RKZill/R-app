@@ -12,7 +12,7 @@ print(this.path::here())
 dat <- read.csv('/srv/shiny-server/ONFARM-soil-data.csv')
 
 ui <- fluidPage(
-  titlePanel(div("ONFARM Soil Health Indicator Comparison Tool" , style="font-family:Merriweather; font-weight:700; font-size:45px;")),
+  #titlePanel(div("ONFARM Soil Health Indicator Comparison Tool" , style="font-family:Merriweather; font-weight:700; font-size:45px;")),
   p("The 25 ONFARM sites comparing soil health BMPs are spread across Southern and Eastern Ontario, and are reflective of Ontario's wide range in farming operations, soil types, topography, and climate. Each year the sites are sampled in June by Soil Resource Group to monitor soil health indicators. This dataset serves to show the range in results for a mix of standard indicators, and several more novel tests. This tool can be used to compare relationships between indicators, to see the variability Ontario farms might expect to see in their soils, and to track potential impacts from BMP use over time." , style="font-family:Montserrat; font-size:17px;"),
   plotOutput("scatter"),
   hr(),
