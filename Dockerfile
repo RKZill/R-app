@@ -1,4 +1,3 @@
-# FROM rocker/shiny-verse:latest
 FROM rocker/shiny-verse:latest
 
 ## Install any Linux system dependencies
@@ -17,12 +16,6 @@ COPY app.r /srv/shiny-server/
 COPY .RData /srv/shiny/.RData
 COPY ONFARM-soil-data.csv /srv/shiny-server/ONFARM-soil-data.csv
 
-## Grant access to server directory
 RUN sudo chown -R shiny:shiny /srv/shiny-server
 
-## Open the port for Shiny
-##EXPOSE 3838
-
-## Start Shiny Server
-##CMD ["R", "-e", "shiny::runApp('/srv/shiny-server/', host = '0.0.0.0', port = 3838)"]
 CMD ["/usr/bin/shiny-server"]

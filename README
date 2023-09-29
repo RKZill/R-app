@@ -1,5 +1,49 @@
 to run locally:
-
 docker build -t shinyapp . 
-
 docker run --rm -p 3838:3838 shinyapp
+
+
+Deploying the ‘ONFARM Soil Data’ tool.
+Step 0  - Grab the repo
+Pull or fork https://github.com/RKZill/R-app 
+
+Step 1 – Allocate Resources
+Use azure cloud shell to make a resource group and container registry (or use existing if exists)
+NOTE: change ‘myapp-rg’ to be a fitting resource group name. Same with ‘mycontainerregistry’.
+# Create a resource group
+az group create --name myapp-rg --location eastus
+
+# Create a container registry
+az acr create --resource-group myapp-rg --name mycontainerregistry --sku Basic
+
+
+
+Step 2 – Create Pipeline
+     Step 2.1 
+Sign into Azure DevOps and create new pipeline, on connect, select GitHub YAML, and select the repo pulled earlier. 
+     Step 2.2
+In the configure tab, choose Docker (build and push an image to Azure container registry). 
+     Step 2.3
+Select an Azure subscription, then select the container registry and create an image name. (Image name does not matter and is not viewable anywhere by users)
+     Step 2.4
+Click Validate, then Save and Run, add a commit message, and click Save.
+
+Step 3 – Web App Basics
+     Step 3.1
+Sign into Azure Portal and under Web App select Create a New Web App 
+     Step 3.2
+In the create web app form, select a subscription, resource group, and name. 
+     Step 3.3
+On Publish section, select “Docker Container” with Linux as OS option. Click Next.
+
+Step 4 – Web App Docker
+In the docker tab, under image source choose Azure Container Registry. Access type should be public, and image-and-tag should be the image name created earlier in step 2.3.  Click Review + Create.
+
+Step 5 – Finalization
+On the web app, left side navigation menu there is a configuration option. Click it and click the + New Application Setting button. The new setting should be called WEBSITES_PORT with a value 3838 (the port docker uses). Back to main menu click Restart.
+
+Step 6 – Using the App
+Slap it in iframe and you’re good to go! (or use the website <APPNAME>.azurewebsites.net.
+<iframe src="https://ryan-r-app.azurewebsites.net/" height="1450px"></iframe>
+NOTE: This iframe example uses ryan’s app URL. This will be changed in the final deployment.
+NOTE2: Height is set to 1450px to work well with OSCIA main site, alter as needed.
