@@ -17,7 +17,7 @@ ui <- fluidPage(
   plotOutput("scatter"),
   hr(),
   fluidRow(
-    style="font-family:Montserrat; font-size:17px;",
+    style="font-size:17px;",
     column(4,
       varSelectInput("xvar", "X-axis Variable:", dat[,14:26], selected = "om"),
       varSelectInput("yvar", "Y-axis Variable:", dat[,14:26], selected = "active_c"),
