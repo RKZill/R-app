@@ -9,8 +9,8 @@ print(this.path::here())
 dat <- read.csv('/srv/shiny-server/ONFARM-soil-data.csv')
 
 ui <- navbarPage("ONFARM Soil Health Database Tool", id='plots',
-                 html("<style>.navbar.navbar-default.navbar-static-top{ display:none; }</style>"),
                  tabPanel("Scatterplot",
+                          HTML("<style>.navbar.navbar-default.navbar-static-top{ display:none; }</style>"),
                           fluidPage(
                             #p("The 25 ONFARM sites comparing soil health BMPs are spread across Southern and Eastern Ontario, and are reflective of Ontario's wide range in farming operations, soil types, topography, and climate. Each year the sites are sampled in June by Soil Resource Group to monitor soil health indicators. This dataset serves to show the range in results for a mix of standard indicators, and several more novel tests. This tool can be used to compare relationships between indicators, to see the variability Ontario farms might expect to see in their soils, and to track potential impacts from BMP use over time. Select between a scatterplot or boxplot view using the buttons at the top of the application."),
                             plotOutput("scatter"),
@@ -56,7 +56,7 @@ ui <- navbarPage("ONFARM Soil Health Database Tool", id='plots',
                  
                  tabPanel("Boxplot", tabName='Boxplot',
                           fluidPage(
-                            p("The 25 ONFARM sites comparing soil health BMPs are spread across Southern and Eastern Ontario, and are reflective of Ontario's wide range in farming operations, soil types, topography, and climate. Each year the sites are sampled in June by Soil Resource Group to monitor soil health indicators. This dataset serves to show the range in results for a mix of standard indicators, and several more novel tests. This tool can be used to compare relationships between indicators, to see the variability Ontario farms might expect to see in their soils, and to track potential impacts from BMP use over time. Select between a scatterplot or boxplot view using the buttons at the top of the application."),
+                            #p("The 25 ONFARM sites comparing soil health BMPs are spread across Southern and Eastern Ontario, and are reflective of Ontario's wide range in farming operations, soil types, topography, and climate. Each year the sites are sampled in June by Soil Resource Group to monitor soil health indicators. This dataset serves to show the range in results for a mix of standard indicators, and several more novel tests. This tool can be used to compare relationships between indicators, to see the variability Ontario farms might expect to see in their soils, and to track potential impacts from BMP use over time. Select between a scatterplot or boxplot view using the buttons at the top of the application."),
                             plotOutput("box"),
                             hr(),
                             fluidRow(
