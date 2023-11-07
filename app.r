@@ -6,9 +6,10 @@ library(this.path)
 setwd(this.path::here())
 print(this.path::here())
 
-#dat <- read.csv('/srv/shiny-server/ONFARM-soil-data.csv')
-dat <- read.csv('ONFARM-soil-data.csv')
-
+dat <- read.csv('/srv/shiny-server/ONFARM-soil-data.csv')
+#dat <- read.csv('ONFARM-soil-data.csv') #for local testing
+print(length(unique(dat$site_num)));
+print(floor(length(unique(dat$site_num))/2));
 ui <- navbarPage("ONFARM Soil Health Database Tool", id='plots',
                  tabPanel("Scatterplot",
                           HTML("<style>.navbar.navbar-default.navbar-static-top{ display:none; }</style>"),
@@ -24,7 +25,7 @@ ui <- navbarPage("ONFARM Soil Health Database Tool", id='plots',
                                      checkboxInput("by_shp", "Show shapes", FALSE),
                                      varSelectInput("col", "Colour by:", dat[,2:9], selected = "soil_texture_group"),
                                      varSelectInput("shp", "Shapes by:", dat[,2:9], selected = "bmp_type")),
-                              column(4,  
+                              column(2,  
                                      checkboxGroupInput(
                                        "calendar_year", "Filter by Sampling Year",
                                        choices = unique(dat$calendar_year), 
@@ -37,6 +38,8 @@ ui <- navbarPage("ONFARM Soil Health Database Tool", id='plots',
                                        "landscape_position", "Filter by Landscape Position",
                                        choices = unique(dat$landscape_position), 
                                        selected = unique(dat$landscape_position)),
+                              ),
+                              column(2,
                                      checkboxGroupInput(
                                        "region", "Filter by ONFARM Region",
                                        choices = unique(dat$region), 
@@ -47,11 +50,26 @@ ui <- navbarPage("ONFARM Soil Health Database Tool", id='plots',
                                        selected = unique(dat$soil_texture_group)
                                      )),
                               column(4,
-                                     checkboxGroupInput(
-                                       "site_num", "Filter by Site Number",
-                                       choices = unique(dat$site_num), 
-                                       selected = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "22", "23", "24", "25")
-                                     ))
+                                     fluidRow(
+                                       p("Filter by Site Number", style='font-size:15px; font-weight:700; margin-bottom:-15px;'),
+                                       column(1,
+                                              checkboxGroupInput(
+                                                "site_num", "",
+                                                #Grab first half of data. From 0 to 1/2LEN
+                                                #We do this so to shorten the overall height of the app.
+                                                choices = unique(dat$site_num)[0:(floor(length(unique(dat$site_num))/2)+1)], 
+                                                selected = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "22", "23", "24", "25")
+                                              )),
+                                       column(1,
+                                              checkboxGroupInput(
+                                                "site_num", "",
+                                                # Grab other half. From 1/2LEN+1 to LEN. omit NA values.
+                                                choices = na.omit(unique(dat$site_num)[(floor(length(unique(dat$site_num))/2))+2 : length(unique(dat$site_num))] ), 
+                                                selected = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "22", "23", "24", "25")
+                                              )),
+                                     )
+                              )       
+                              
                             ))
                  ),
                  
@@ -68,7 +86,7 @@ ui <- navbarPage("ONFARM Soil Health Database Tool", id='plots',
                                      varSelectInput("col_box", "Colour by:", dat[,2:9], selected = "soil_texture_group"),
                                      #checkboxInput("filter_out_box", "Filter Outliers", TRUE)
                               ),
-                              column(4,
+                              column(2,
                                      checkboxGroupInput(
                                        "calendar_year_box", "Filter by Sampling Year",
                                        choices = unique(dat$calendar_year), 
@@ -81,6 +99,8 @@ ui <- navbarPage("ONFARM Soil Health Database Tool", id='plots',
                                        "landscape_position_box", "Filter by Landscape Position",
                                        choices = unique(dat$landscape_position), 
                                        selected = unique(dat$landscape_position)),
+                              ),
+                              column(2,
                                      checkboxGroupInput(
                                        "region_box", "Filter by ONFARM Region",
                                        choices = unique(dat$region), 
@@ -89,13 +109,34 @@ ui <- navbarPage("ONFARM Soil Health Database Tool", id='plots',
                                        "texture_box", "Filter by Soil Texture Group",
                                        choices = unique(dat$soil_texture_group),
                                        selected = unique(dat$soil_texture_group))),
-                              column(4,
+                              column(1,
                                      checkboxGroupInput(
-                                       "site_num_box", "Filter by Site Number",
-                                       choices = unique(dat$site_num), 
+                                       #Grab first half of data. From 0 to 1/2LEN
+                                       "site_num", "Filter by Site Number",
+                                       choices = unique(dat$site_num)[0:floor(length(unique(dat$site_num))/2)], 
                                        selected = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "22", "23", "24", "25")
-                                     ))
-                            )
+                                     )),
+                              column(4,
+                                     fluidRow(
+                                       p("Filter by Site Number", style='font-size:15px; font-weight:700; margin-bottom:-15px;'),
+                                       column(1,
+                                              checkboxGroupInput(
+                                                "site_num", "",
+                                                #Grab first half of data. From 0 to 1/2LEN
+                                                #We do this so to shorten the overall height of the app.
+                                                choices = unique(dat$site_num)[0:(floor(length(unique(dat$site_num))/2)+1)], 
+                                                selected = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "22", "23", "24", "25")
+                                              )),
+                                       column(1,
+                                              checkboxGroupInput(
+                                                "site_num", "",
+                                                # Grab other half. From 1/2LEN+1 to LEN. omit NA values.
+                                                choices = na.omit(unique(dat$site_num)[(floor(length(unique(dat$site_num))/2))+2 : length(unique(dat$site_num))] ), 
+                                                selected = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "22", "23", "24", "25")
+                                              )),
+                                     )
+                              ) 
+                            ) 
                           )))
 
 
