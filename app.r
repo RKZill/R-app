@@ -6,7 +6,8 @@ library(this.path)
 setwd(this.path::here())
 print(this.path::here())
 
-dat <- read.csv('/srv/shiny-server/ONFARM-soil-data.csv')
+#dat <- read.csv('/srv/shiny-server/ONFARM-soil-data.csv')
+dat <- read.csv('ONFARM-soil-data.csv')
 
 ui <- navbarPage("ONFARM Soil Health Database Tool", id='plots',
                  tabPanel("Scatterplot",
